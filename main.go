@@ -3,18 +3,21 @@ package main
 import (
     "os"
     "fmt"
+    "log"
 
     "github.com/pkg/term"
     "github.com/araujobsd/bhyve-vm-goagent/plugins"
 )
 
+const DEBUG int = 0
+
 var (
+    guestInfo []byte
     vconsolePath = [...]string {
                 "/dev/virtio-ports/org.freenas.bhyve-agent",
                 "/dev/vtcon/org.freenas.bhyve-agent",
                 "/dev/ttyV0.0",
 }
-    guestInfo []byte
 )
 
 func checkConsole() string {
@@ -23,6 +26,9 @@ func checkConsole() string {
         if os.IsNotExist(err) {
             continue
         } else {
+            if DEBUG == 1 {
+                log.Println("==> Device: ", device)
+            }
             return device
         }
     }
@@ -36,7 +42,9 @@ func writeConsole(opt string) {
     plugins.CheckErr(err)
     virtiorw.Flush()
 
-    fmt.Println("===> OPT: ", opt)
+    if DEBUG == 1 {
+        log.Println("==> Opt: ", opt)
+    }
 
     switch opt {
     case "mem":
@@ -51,6 +59,10 @@ func writeConsole(opt string) {
     default:
         guestInfo = append([]byte("pong"))
 
+    }
+
+    if DEBUG == 1 {
+        log.Println("==> guestInfo: ", string(guestInfo))
     }
 
     virtiorw.Write(guestInfo)
@@ -69,6 +81,11 @@ func readConsole(vconsole string) {
         for {
             nlines, err := virtiord.Read(buffer)
             plugins.CheckErr(err)
+
+            if DEBUG == 1 {
+                log.Println("Virtio Received: ", string(buffer[:nlines]))
+            }
+
             go writeConsole(string(buffer[:nlines]))
         }
         virtiord.Flush()
