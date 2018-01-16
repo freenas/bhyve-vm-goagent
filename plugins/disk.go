@@ -1,7 +1,6 @@
 package plugins
 
 import (
-    "log"
     "encoding/json"
 
     "github.com/shirou/gopsutil/disk"
@@ -35,9 +34,7 @@ func UsageInfo(path string) DiskUsage {
 func DiskInfo() []byte {
     vdisk, err := disk.Partitions(true)
     CheckErr(err)
-    for index, disk := range vdisk {
-        log.Println("Disk: ", disk.Mountpoint)
-        log.Println("INDEX: ", index)
+    for _, disk := range vdisk {
         info := UsageInfo(disk.Mountpoint)
         DiskInformation = append(DiskInformation, info)
     }
