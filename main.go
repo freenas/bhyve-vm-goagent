@@ -59,6 +59,9 @@ func writeConsole(opt string) {
 	case "disk":
 		diskinfo := plugins.DiskInfo()
 		guestInfo = append(diskinfo)
+	case "uptime":
+		uptimeinfo := plugins.Uptime()
+		guestInfo = append(uptimeinfo)
 	default:
 		guestInfo = append([]byte("pong"))
 
