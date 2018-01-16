@@ -9,7 +9,7 @@ import (
     "github.com/araujobsd/bhyve-vm-goagent/plugins"
 )
 
-const DEBUG int = 0
+const DEBUG int = 1
 
 var (
     guestInfo []byte
@@ -56,6 +56,9 @@ func writeConsole(opt string) {
     case "iface":
         ifaceinfo := plugins.NetInfo()
         guestInfo = append([]byte(fmt.Sprintf("%v", ifaceinfo)))
+    case "disk":
+        diskinfo := plugins.DiskInfo()
+        guestInfo = append(diskinfo)
     default:
         guestInfo = append([]byte("pong"))
 
