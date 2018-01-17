@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/araujobsd/bhyve-vm-goagent/plugins"
-	"github.com/pkg/term"
+	"github.com/araujobsd/bhyve-vm-goagent/termios"
 )
 
 const DEBUG int = 1
@@ -35,71 +35,36 @@ func checkConsole() string {
 	return ""
 }
 
-func writeConsole(opt string) {
+func Run() {
+	var dump []byte
 	vconsole := checkConsole()
-
-	virtiorw, err := term.Open(vconsole, term.Speed(9600), term.RawMode)
-	plugins.CheckErr(err)
-	virtiorw.Flush()
-
-	if DEBUG == 1 {
-		log.Println("==> Opt: ", opt)
-	}
-
-	switch opt {
-	case "mem":
-		meminfo := plugins.Memory()
-		guestInfo = append([]byte(fmt.Sprintf("%v", meminfo)))
-	case "cpu":
-		cpuinfo := plugins.CpuInfo()
-		guestInfo = append([]byte(fmt.Sprintf("%v", cpuinfo)))
-	case "iface":
-		ifaceinfo := plugins.NetInfo()
-		guestInfo = append([]byte(fmt.Sprintf("%v", ifaceinfo)))
-	case "disk":
-		diskinfo := plugins.DiskInfo()
-		guestInfo = append(diskinfo)
-	case "uptime":
-		uptimeinfo := plugins.Uptime()
-		guestInfo = append(uptimeinfo)
-	default:
-		guestInfo = append([]byte("pong"))
-
-	}
-
-	if DEBUG == 1 {
-		log.Println("==> guestInfo: ", string(guestInfo))
-	}
-
-	virtiorw.Write(guestInfo)
-	virtiorw.Flush()
-	virtiorw.Write([]byte(""))
-	virtiorw.Close()
-}
-
-func readConsole(vconsole string) {
-	virtiord, err := term.Open(vconsole, term.Speed(9600), term.RawMode)
-	plugins.CheckErr(err)
-	virtiord.Flush()
-
-	buffer := make([]byte, 128)
-	for {
-		for {
-			nlines, err := virtiord.Read(buffer)
-			plugins.CheckErr(err)
-
-			if DEBUG == 1 {
-				log.Println("Virtio Received: ", string(buffer[:nlines]))
-			}
-
-			go writeConsole(string(buffer[:nlines]))
+	callback := termios.Read(vconsole)
+	if len(callback) > 0 {
+		switch opt := string(callback); opt {
+		case "mem":
+			memoryinfo := plugins.Memory()
+			dump = append([]byte(fmt.Sprintf("%v", memoryinfo)))
+		case "cpu":
+			cpuinfo := plugins.CpuInfo()
+			dump = append([]byte(fmt.Sprintf("%v", cpuinfo)))
+		case "iface":
+			ifaceinfo := plugins.NetInfo()
+			dump = append([]byte(fmt.Sprintf("%v", ifaceinfo)))
+		case "disk":
+			diskinfo := plugins.DiskInfo()
+			dump = append(diskinfo)
+		case "uptime":
+			uptimeinfo := plugins.Uptime()
+			dump = append(uptimeinfo)
+		default:
+			dump = append([]byte("pong"))
 		}
-		virtiord.Flush()
+		termios.Write(vconsole, dump)
 	}
-	virtiord.Close()
 }
 
 func main() {
-	vconsole := checkConsole()
-	readConsole(vconsole)
+	for {
+		Run()
+	}
 }
