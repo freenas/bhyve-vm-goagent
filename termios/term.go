@@ -19,7 +19,10 @@ func Read(vconsole string) []byte {
 
 	SetTerm(&fd)
 
-	log.Println("===> Open device READ: ", vconsole)
+	if DEBUG == 1 {
+		log.Println("===> Open device READ: ", vconsole)
+	}
+
 	buffer := make([]byte, 128)
 	numread, err = syscall.Read(fd, buffer)
 	if err != nil {
@@ -29,7 +32,9 @@ func Read(vconsole string) []byte {
 	guestInfo = append(buffer[:numread])
 	syscall.Close(fd)
 
-	log.Println("===> READ COMMAND: ", string(guestInfo))
+	if DEBUG == 1 {
+		log.Println("===> READ COMMAND: ", string(guestInfo))
+	}
 
 	return guestInfo
 }
@@ -44,8 +49,12 @@ func Write(vconsole string, guestInfo []byte) {
 	}
 
 	SetTerm(&fd)
-	log.Println("===> Open device WRITE: ", vconsole)
+	if DEBUG == 1 {
+		log.Println("===> Open device WRITE: ", vconsole)
+	}
 	syscall.Write(fd, guestInfo)
-	log.Println("===> Writting: ", string(guestInfo))
+	if DEBUG == 1 {
+		log.Println("===> Writting: ", string(guestInfo))
+	}
 	syscall.Close(fd)
 }
