@@ -15,14 +15,16 @@ type HostInfo struct {
 
 func Uptime() []byte {
 	hostinfo := HostInfo{}
-	seconds, err := host.Uptime()
-	CheckErr(err)
-
-	hostinfo.Seconds = seconds
-	hostinfo.Days = (seconds / (60 * 60 * 24))
-	hostinfo.Hours = (seconds - (hostinfo.Days * 60 * 60 * 24)) / (60 * 60)
-	hostinfo.Minutes = ((seconds - (hostinfo.Days * 60 * 60 * 24)) - (hostinfo.Hours * 60 * 60)) / 60
+	for i := 0; i < 3; i++ {
+		seconds, err := host.Uptime()
+		CheckErr(err)
+		hostinfo.Seconds = seconds
+		hostinfo.Days = hostinfo.Seconds / (60 * 60 * 24)
+		hostinfo.Hours = (hostinfo.Seconds - (hostinfo.Days * 60 * 60 * 24)) / (60 * 60)
+		hostinfo.Minutes = ((hostinfo.Seconds - (hostinfo.Days * 60 * 60 * 24)) - (hostinfo.Hours * 60 * 60)) / 60
+	}
 	convjson, err := json.Marshal(hostinfo)
+	CheckErr(err)
 
 	return convjson
 }
