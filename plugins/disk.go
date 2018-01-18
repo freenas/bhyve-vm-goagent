@@ -6,6 +6,13 @@ import (
 	"github.com/shirou/gopsutil/disk"
 )
 
+var FSTYPE = map[string]bool{
+	"ext3": true,
+	"ext4": true,
+	"zfs":  true,
+	"ufs":  true,
+}
+
 type DiskUsage struct {
 	Mountpoint string `json:"mountpoint"`
 	Fstype     string `json:"fstype"`
@@ -33,10 +40,14 @@ func UsageInfo(path string) DiskUsage {
 // Returns information about all slices.
 func DiskInfo() []byte {
 	vdisk, err := disk.Partitions(true)
+	DiskInformation := []DiskUsage{}
 	CheckErr(err)
 	for _, disk := range vdisk {
-		info := UsageInfo(disk.Mountpoint)
-		DiskInformation = append(DiskInformation, info)
+		if FSTYPE[disk.Fstype] {
+			info := UsageInfo("/")
+			DiskInformation = append(DiskInformation, info)
+			break
+		}
 	}
 	convjson, err := json.Marshal([]DiskUsage(DiskInformation))
 	CheckErr(err)
