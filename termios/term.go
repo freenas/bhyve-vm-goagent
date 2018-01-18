@@ -55,7 +55,7 @@ func Read(fd int) []byte {
 	var err error
 	var guestInfo []byte
 
-	buffer := make([]byte, 1024)
+	buffer := make([]byte, MaxRead)
 	numread, err = syscall.Read(fd, buffer)
 	if err != nil {
 		panic(err.Error())
