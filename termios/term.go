@@ -5,26 +5,29 @@ import (
 	"syscall"
 )
 
-const DEBUG int = 0
+const DEBUG int = 1
 
-func Read(vconsole string) []byte {
-	var MaxRead int = 1024
-	var fd, numread int
-	var err error
-	var guestInfo []byte
-
-	fd, err = syscall.Open(vconsole, syscall.O_RDONLY, 0666)
+func NewConnection(vconsole string) int {
+	fd, err := syscall.Open(vconsole, syscall.O_RDWR, 0666)
 	if err != nil {
 		panic(err.Error())
 	}
 
 	SetTerm(&fd)
+	return fd
+}
 
-	if DEBUG == 1 {
-		log.Println("===> Open device READ: ", vconsole)
-	}
+func CloseConnection(fd int) {
+	syscall.Close(fd)
+}
 
-	buffer := make([]byte, MaxRead)
+func Read(fd int) []byte {
+	var MaxRead int = 1024
+	var numread int
+	var err error
+	var guestInfo []byte
+
+	buffer := make([]byte, 1024)
 	numread, err = syscall.Read(fd, buffer)
 	if err != nil {
 		panic(err.Error())
@@ -34,31 +37,20 @@ func Read(vconsole string) []byte {
 		MaxRead = numread
 	}
 	guestInfo = append(buffer[:MaxRead])
-	syscall.Close(fd)
 
 	if DEBUG == 1 {
-		log.Println("===> READ COMMAND: ", string(guestInfo))
+		log.Println("===> READ COMMAND: ", string(guestInfo[:MaxRead]))
 	}
 
 	return guestInfo
 }
 
-func Write(vconsole string, guestInfo []byte) {
-	var fd int
-	var err error
-
-	fd, err = syscall.Open(vconsole, syscall.O_WRONLY, 0666)
+func Write(fd int, guestInfo []byte) {
+	_, err := syscall.Write(fd, guestInfo)
 	if err != nil {
 		panic(err.Error())
 	}
-
-	SetTerm(&fd)
-	if DEBUG == 1 {
-		log.Println("===> Open device WRITE: ", vconsole)
-	}
-	syscall.Write(fd, guestInfo)
 	if DEBUG == 1 {
 		log.Println("===> Writting: ", string(guestInfo))
 	}
-	syscall.Close(fd)
 }

@@ -35,10 +35,9 @@ func checkConsole() string {
 	return ""
 }
 
-func Run() {
+func Run(fd int) {
 	var dump []byte
-	vconsole := checkConsole()
-	callback := termios.Read(vconsole)
+	callback := termios.Read(fd)
 	if len(callback) > 0 {
 		switch opt := string(callback); opt {
 		case "mem":
@@ -56,15 +55,21 @@ func Run() {
 		case "uptime":
 			uptimeinfo := plugins.Uptime()
 			dump = append(uptimeinfo)
+		case "ping":
+			pinginfo := plugins.Ping()
+			dump = append([]byte(fmt.Sprintf("%v", pinginfo)))
 		default:
-			dump = append([]byte("pong"))
+			dump = append([]byte("bang! bang!"))
 		}
-		termios.Write(vconsole, dump)
+		termios.Write(fd, dump)
 	}
 }
 
 func main() {
+	vconsole := checkConsole()
+	fd := termios.NewConnection(vconsole)
 	for {
-		Run()
+		Run(fd)
 	}
+	defer termios.CloseConnection(fd)
 }
