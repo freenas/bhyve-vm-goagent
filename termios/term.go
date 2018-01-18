@@ -8,6 +8,7 @@ import (
 const DEBUG int = 0
 
 func Read(vconsole string) []byte {
+	var MaxRead int = 1024
 	var fd, numread int
 	var err error
 	var guestInfo []byte
@@ -23,13 +24,16 @@ func Read(vconsole string) []byte {
 		log.Println("===> Open device READ: ", vconsole)
 	}
 
-	buffer := make([]byte, 128)
+	buffer := make([]byte, MaxRead)
 	numread, err = syscall.Read(fd, buffer)
 	if err != nil {
 		panic(err.Error())
 	}
 
-	guestInfo = append(buffer[:numread])
+	if numread < MaxRead {
+		MaxRead = numread
+	}
+	guestInfo = append(buffer[:MaxRead])
 	syscall.Close(fd)
 
 	if DEBUG == 1 {
