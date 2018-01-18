@@ -28,3 +28,8 @@ func Uptime() []byte {
 
 	return convjson
 }
+
+// Return pong.
+func Ping() string {
+	return "pong"
+}
