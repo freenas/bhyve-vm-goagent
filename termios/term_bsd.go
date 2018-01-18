@@ -20,6 +20,6 @@ func SetTerm(fd *int) {
 	termios.Ospeed = syscall.B115200
 
 	syscall.Syscall6(syscall.SYS_IOCTL, uintptr(*fd),
-		uintptr(syscall.TIOCSETAW), uintptr(unsafe.Pointer(&termios)),
+		uintptr(syscall.TIOCSETA), uintptr(unsafe.Pointer(&termios)),
 		0, 0, 0)
 }
