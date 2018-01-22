@@ -30,5 +30,16 @@ Usage of -websocket:
 	TCP port to bind the websocket. (default 8080)
 ```
 
+<b> Start in websocket mode</b>
+```
+root@freenas:/tmp # ./bhyve-vm-goagent-freebsd-386 -websocket -ipaddr="192.168.100.111" -port=9191
+018/01/22 11:30:12 ==> Running server at: 192.168.100.111:9191
+```
+<b> Start in virtio mode</b>
+```
+root@freenas:/tmp # ./bhyve-vm-goagent-freebsd-386 -virtio
+2018/01/22 11:41:50 ==> /dev/vtcon/org.freenas.bhyve-agent
+```
+
 ## Copyright and licensing
 Distributed under 2-Clause BSD License.
