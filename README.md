@@ -1,6 +1,8 @@
 bhyve-vm-goagent
 ================
-It is an agent developed using Go that runs inside guest virtual machines and allows host hypervisor to obtain information from guest such like memory usage, cpu, disk and ethernet configuration.
+It is an agent developed using [Go](http://golang.org/) that runs inside guest virtual machines and allows host hypervisor to obtain information from guest such like memory usage, cpu, disk and ethernet configuration.
+
+It supports [virtio-console](https://fedoraproject.org/wiki/Features/VirtioSerial) as well as [WebSocket](http://www.rfc-editor.org/rfc/rfc6455.txt) protocol.
 
 ## Build instructions
 1) `make deps`
