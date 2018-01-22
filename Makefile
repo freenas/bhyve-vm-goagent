@@ -1,13 +1,26 @@
 GO ?= go
 TARGET := bhyve-vm-goagent
+OS := freebsd netbsd linux
+ARCH := 386 amd64
 
 all: build
 
 build:
-	@$(GO) build -o $(TARGET) $^
+	@for os in $(OS); do \
+		for arch in $(ARCH); do \
+		echo "===> building: $(TARGET)-$$os-$$arch"; \
+		GOOS=$$os GOARCH=$$arch go build -o $(TARGET)-$$os-$$arch $^ ;\
+		done \
+	done \
 
 clean:
 	@$(GO) clean
-	@rm -rf $(TARGET)
+	@for os in $(OS); do \
+		for arch in $(ARCH); do \
+		echo "===> Removing: $(TARGET)-$$os-$$arch"; \
+		rm -f $(TARGET)-$$os-$$arch $^ ;\
+		done \
+	done \
+
 
 .PHONY: all build clean
