@@ -5,6 +5,14 @@ ARCH := 386 amd64
 
 all: build
 
+deps:
+	@echo "===> Downloading crossbuild dependencies."
+	go get github.com/gorilla/websocket
+	go get github.com/shirou/w32
+	go get github.com/StackExchange/wmi
+	go get github.com/go-ole/go-ole
+	go get github.com/go-ole/go-ole/oleutil
+
 build:
 	@for os in $(OS); do \
 		for arch in $(ARCH); do \
@@ -23,4 +31,4 @@ clean:
 	done \
 
 
-.PHONY: all build clean
+.PHONY: all deps build clean
