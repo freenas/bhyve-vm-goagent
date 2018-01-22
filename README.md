@@ -42,4 +42,4 @@ root@freenas:/tmp # ./bhyve-vm-goagent-freebsd-386 -virtio
 ```
 
 ## Copyright and licensing
-Distributed under 2-Clause BSD License.
+Distributed under [2-Clause BSD License](https://github.com/araujobsd/bhyve-vm-goagent/blob/master/LICENSE).
