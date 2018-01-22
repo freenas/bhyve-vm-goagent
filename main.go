@@ -29,12 +29,14 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"os"
 
 	"github.com/araujobsd/bhyve-vm-goagent/plugins"
 	"github.com/araujobsd/bhyve-vm-goagent/termios"
+	"github.com/araujobsd/bhyve-vm-goagent/websocket"
 )
 
 const DEBUG int = 1
@@ -93,11 +95,54 @@ func Run(fd int) {
 	}
 }
 
+func usage() {
+	fmt.Println("Usage of -virtio:")
+	fmt.Printf("  -virtio\n")
+	fmt.Printf("\tIt uses the virtio-console for communication.\n")
+	fmt.Println("")
+	fmt.Println("Usage of -websocket:")
+	fmt.Printf("  -websocket\n")
+	fmt.Printf("\tIt uses the websocket for communication.\n")
+	fmt.Printf("  -ipaddr string\n")
+	fmt.Printf("\tIPv4/IPv6 to bind the service. (default '127.0.0.1')\n")
+	fmt.Printf("  -port int\n")
+	fmt.Printf("\tTCP port to bind the websocket. (default 8080)\n")
+	fmt.Println("")
+	os.Exit(2)
+}
+
 func main() {
-	vconsole := checkConsole()
-	fd := termios.NewConnection(vconsole)
-	for {
-		Run(fd)
+	vconsoleCmd := flag.NewFlagSet("-virtio", flag.ExitOnError)
+	websocketCmd := flag.NewFlagSet("-websocket", flag.ExitOnError)
+	websocketIp := websocketCmd.String("ipaddr", "127.0.0.1", "IPv4/IPv6 to bind the service.")
+	websocketPort := websocketCmd.Int("port", 8080, "TCP port to bind the websocket.")
+
+	if len(os.Args) < 2 {
+		usage()
 	}
-	defer termios.CloseConnection(fd)
+
+	switch os.Args[1] {
+	case "-virtio":
+		vconsoleCmd.Parse(os.Args[2:])
+	case "-websocket":
+		websocketCmd.Parse(os.Args[2:])
+	default:
+		usage()
+	}
+
+	if vconsoleCmd.Parsed() {
+		vconsole := checkConsole()
+		if len(vconsole) > 0 {
+			fd := termios.NewConnection(vconsole)
+			for {
+				Run(fd)
+			}
+			defer termios.CloseConnection(fd)
+		} else {
+			fmt.Println("Error: Guest without support of virtio-console.")
+			os.Exit(2)
+		}
+	} else if websocketCmd.Parsed() {
+		websocket.RunServer(websocketIp, websocketPort)
+	}
 }
