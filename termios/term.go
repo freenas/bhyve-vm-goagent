@@ -1,3 +1,5 @@
+// +build !windows
+
 /*-
  * Copyright 2018 iXsystems, Inc.
  * Copyright 2018 by Marcelo Araujo <araujo@ixsystems.com>.

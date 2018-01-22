@@ -1,4 +1,5 @@
-// +build freebsd netbsd openbsd,amd64
+// +build windows
+// +build 386 amd64
 
 /*-
  * Copyright 2018 iXsystems, Inc.
@@ -30,24 +31,19 @@
 
 package termios
 
-import (
-	"syscall"
-	"unsafe"
-)
-
 func SetTerm(fd *int) {
-	termios := syscall.Termios{}
-	termios.Cflag |= syscall.CS8 | syscall.CREAD | syscall.CLOCAL | syscall.B115200
-	termios.Cflag &^= syscall.CSIZE | syscall.PARENB
-	termios.Iflag &^= syscall.BRKINT | syscall.ICRNL | syscall.INPCK | syscall.ISTRIP | syscall.IXON
-	termios.Oflag &^= syscall.OPOST
-	termios.Lflag &^= syscall.ECHO | syscall.ICANON | syscall.IEXTEN | syscall.ISIG
-	termios.Cc[syscall.VMIN] = 1
-	termios.Cc[syscall.VTIME] = 0
-	termios.Ispeed = syscall.B115200
-	termios.Ospeed = syscall.B115200
+}
 
-	syscall.Syscall6(syscall.SYS_IOCTL, uintptr(*fd),
-		uintptr(syscall.TIOCSETA), uintptr(unsafe.Pointer(&termios)),
-		0, 0, 0)
+func CloseConnection(fd int) {
+}
+
+func Read(fd int) []byte {
+	return []byte("not implemented")
+}
+
+func Write(fd int, guestInfo []byte) {
+}
+
+func NewConnection(vconsole string) int {
+	return 0
 }
