@@ -1,6 +1,6 @@
 GO ?= go
 TARGET := bhyve-vm-goagent
-OS := freebsd netbsd linux
+OS := freebsd netbsd linux windows
 ARCH := 386 amd64
 
 all: build
