@@ -1,4 +1,6 @@
 [![GoDoc](https://godoc.org/github.com/araujobsd/bhyve-vm-goagent/plugins?status.svg)](https://godoc.org/github.com/araujobsd/bhyve-vm-goagent/)
+[![GitHub issues](https://img.shields.io/github/issues/araujobsd/bhyve-vm-goagent.svg)](https://github.com/araujobsd/bhyve-vm-goagent/issues)
+[![GitHub forks](https://img.shields.io/github/forks/araujobsd/bhyve-vm-goagent.svg)](https://github.com/araujobsd/bhyve-vm-goagent/network)
 
 bhyve-vm-goagent
 ================
