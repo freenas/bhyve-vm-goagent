@@ -40,6 +40,7 @@ import (
 )
 
 const DEBUG int = 1
+const VERSION string = "1.0-BETA"
 
 var (
 	guestInfo    []byte
@@ -108,6 +109,11 @@ func usage() {
 	fmt.Printf("  -port int\n")
 	fmt.Printf("\tTCP port to bind the websocket. (default 8080)\n")
 	fmt.Println("")
+	fmt.Println("Usage of -version:")
+	fmt.Printf("  -version\n")
+	fmt.Printf("\tPrint out software version.\n")
+	fmt.Println("")
+
 	os.Exit(2)
 }
 
@@ -122,6 +128,8 @@ func main() {
 	}
 
 	switch os.Args[1] {
+	case "-version", "-v":
+		fmt.Printf("==> bhyve-vm-goagent version %s.\n", VERSION)
 	case "-virtio":
 		vconsoleCmd.Parse(os.Args[2:])
 	case "-websocket":

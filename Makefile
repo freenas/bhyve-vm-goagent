@@ -2,6 +2,7 @@ GO ?= go
 TARGET := bhyve-vm-goagent
 OS := freebsd netbsd linux windows
 ARCH := 386 amd64
+VERSION := `grep \"VERSION\" main.go | cut -d '"' -f 2 | head -1`
 
 all: build
 
@@ -16,8 +17,8 @@ deps:
 build:
 	@for os in $(OS); do \
 		for arch in $(ARCH); do \
-		echo "===> building: $(TARGET)-$$os-$$arch"; \
-		GOOS=$$os GOARCH=$$arch go build -o $(TARGET)-$$os-$$arch $^ ;\
+		echo "===> building: $(TARGET)-$$os-$$arch-$(VERSION)"; \
+		GOOS=$$os GOARCH=$$arch go build -o $(TARGET)-$$os-$$arch-"$(VERSION)" $^ ;\
 		done \
 	done \
 
@@ -25,8 +26,8 @@ clean:
 	@$(GO) clean
 	@for os in $(OS); do \
 		for arch in $(ARCH); do \
-		echo "===> Removing: $(TARGET)-$$os-$$arch"; \
-		rm -f $(TARGET)-$$os-$$arch $^ ;\
+		echo "===> Removing: $(TARGET)-$$os-$$arch-$(VERSION)"; \
+		rm -f $(TARGET)-$$os-$$arch-"$(VERSION)" $^ ;\
 		done \
 	done \
 
