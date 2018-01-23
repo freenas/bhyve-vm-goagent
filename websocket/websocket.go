@@ -102,7 +102,6 @@ func RunServer(ipaddr *string, port *int) {
 		bindto = "127.0.0.1:" + strconv.Itoa(*port)
 	}
 
-	fmt.Printf("==> Running server at: %s:%d\n", *ipaddr, *port)
-
+	log.Printf("==> Running server at: %s:%d\n", *ipaddr, *port)
 	log.Fatal(http.ListenAndServe(bindto, nil))
 }
