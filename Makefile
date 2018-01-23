@@ -16,8 +16,20 @@ deps:
 build:
 	@for os in $(OS); do \
 		for arch in $(ARCH); do \
-		echo "===> building: $(TARGET)-$$os-$$arch"; \
-		GOOS=$$os GOARCH=$$arch go build -o $(TARGET)-$$os-$$arch $^ ;\
+                    if [ $$os == "openbsd" ] && [ $$arch == "amd64" ] ; then \
+                        CGO_ENABLED="1" ; \
+                        CC="gcc7" ; \
+                        CXX="g++7" ; \
+                    else if [ $$os == "openbsd" ] && [ $$arch == "386" ] ; then \
+                        continue ; \
+                    else \
+                        CGO_ENABLED="0" ; \
+                        CC="clang" ; \
+                        CXX="clang++" ; \
+                    fi ; \
+                    fi ; \
+		    echo "===> building: $(TARGET)-$$os-$$arch"; \
+		    GOOS=$$os GOARCH=$$arch go build -o $(TARGET)-$$os-$$arch $^ ;\
 		done \
 	done \
 
