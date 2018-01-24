@@ -65,7 +65,7 @@ func UsageInfo(path string) DiskUsage {
 	return diskusage
 }
 
-// Returns information about all slices.
+// Returns information about root slice.
 func DiskInfo() []byte {
 	vdisk, err := disk.Partitions(true)
 	DiskInformation := []DiskUsage{}
