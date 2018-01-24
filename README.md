@@ -14,7 +14,15 @@ It supports [virtio-console](https://fedoraproject.org/wiki/Features/VirtioSeria
 
 It will cross compile binaries for the following platforms: FreeBSD, NetBSD, Linux and Windows.
 
-## Usage instructions
+## Usage instructions (Host VM)
+Start bhyve(8).
+```
+bhyve -A -H -w -c 2 -m 2048 -s 0:0,hostbridge -s 31,lpc -l com1,/dev/nmdm132A -l bootrom,/usr/local/share/uefi-firmware/BHYVE_UEFI.fd -s 3,e1000,tap0,mac=00:a0:98:1e:c0:08 -s 29,fbuf,vncserver,tcp=192.168.100.111:6032,w=800,h=600,, -s 30,xhci,tablet -s 4,ahci-hd,/dev/zvol/tank/freebsd12 -s 2,virtio-console,org.freenas.bhyve-agent=/tmp/FreeBSD12.sock FreeBSD12
+```
+
+Note for the parameter <b>-s 2,virtio-console,org.freenas.bhyve-agent=/tmp/FreeBSD12.sock</b>
+
+## Usage instructions (Guest VM)
 `root@guest:/tmp # ./bhyve-vm-goagent-freebsd-386`
 ```
 Usage of -virtio:
