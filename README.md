@@ -53,7 +53,7 @@ root@guest:/tmp # ./bhyve-vm-goagent-freebsd-386 -virtio
 2018/01/22 11:41:50 ==> /dev/vtcon/org.freenas.bhyve-agent
 ```
 
-## How to use [tools](https://github.com/araujobsd/bhyve-vm-goagent/tree/master/tools/host)?
+## How to use host [tools](https://github.com/araujobsd/bhyve-vm-goagent/tree/master/tools/host)?
 <b> goserial.go:</b>
 ```
 root@freenas:/tmp # ./host -socket="/tmp/FreeBSD12.sock" -ether -uptime
