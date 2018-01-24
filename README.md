@@ -15,7 +15,7 @@ It supports [virtio-console](https://fedoraproject.org/wiki/Features/VirtioSeria
 It will cross compile binaries for the following platforms: FreeBSD, NetBSD, Linux and Windows.
 
 ## Usage instructions
-`root@freenas:/tmp # ./bhyve-vm-goagent-freebsd-386`
+`root@guest:/tmp # ./bhyve-vm-goagent-freebsd-386`
 ```
 Usage of -virtio:
   -virtio
@@ -32,12 +32,12 @@ Usage of -websocket:
 
 <b> Start in websocket mode</b>
 ```
-root@freenas:/tmp # ./bhyve-vm-goagent-freebsd-386 -websocket -ipaddr="192.168.100.111" -port=9191
+root@guest:/tmp # ./bhyve-vm-goagent-freebsd-386 -websocket -ipaddr="192.168.100.111" -port=9191
 018/01/22 11:30:12 ==> Running server at: 192.168.100.111:9191
 ```
 <b> Start in virtio mode</b>
 ```
-root@freenas:/tmp # ./bhyve-vm-goagent-freebsd-386 -virtio
+root@guest:/tmp # ./bhyve-vm-goagent-freebsd-386 -virtio
 2018/01/22 11:41:50 ==> /dev/vtcon/org.freenas.bhyve-agent
 ```
 
