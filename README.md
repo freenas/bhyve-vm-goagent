@@ -53,8 +53,7 @@ root@guest:/tmp # ./bhyve-vm-goagent-freebsd-386 -virtio
 2018/01/22 11:41:50 ==> /dev/vtcon/org.freenas.bhyve-agent
 ```
 
-<b> How to use [tools](https://github.com/araujobsd/bhyve-vm-goagent/tree/master/tools/host)? </b>
-
+## How to use [tools](https://github.com/araujobsd/bhyve-vm-goagent/tree/master/tools/host)?
 <b> goserial.go:</b>
 ```
 root@freenas:/tmp # ./host -socket="/tmp/FreeBSD12.sock" -ether -uptime
@@ -68,6 +67,7 @@ Result:  {"seconds":5742,"days":0,"hours":1,"minutes":35}
 ```
 
 You need to edit client.py and change GUEST_IP and GUEST_PORT according with your guest vm settings.
+
 
 ## Copyright and licensing
 Distributed under [2-Clause BSD License](https://github.com/araujobsd/bhyve-vm-goagent/blob/master/LICENSE).
