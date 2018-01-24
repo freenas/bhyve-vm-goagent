@@ -44,8 +44,8 @@ Usage of -websocket:
 
 <b> Start in websocket mode</b>
 ```
-root@guest:/tmp # ./bhyve-vm-goagent-freebsd-386 -websocket -ipaddr="192.168.100.111" -port=9191
-018/01/22 11:30:12 ==> Running server at: 192.168.100.111:9191
+root@guest:/tmp # ./bhyve-vm-goagent-freebsd-386 -websocket -ipaddr="192.168.100.193" -port=9191
+018/01/22 11:30:12 ==> Running server at: 192.168.100.193:9191
 ```
 <b> Start in virtio mode</b>
 ```
