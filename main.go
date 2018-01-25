@@ -40,7 +40,7 @@ import (
 )
 
 const DEBUG int = 1
-const VERSION string = "1.0-BETA"
+const VERSION string = "1.0-RELEASE"
 
 var (
 	guestInfo    []byte
