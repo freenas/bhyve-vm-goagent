@@ -18,7 +18,11 @@ build:
 	@for os in $(OS); do \
 		for arch in $(ARCH); do \
 		echo "===> building: $(TARGET)-$$os-$$arch-$(VERSION)"; \
-		GOOS=$$os GOARCH=$$arch go build -o $(TARGET)-$$os-$$arch-"$(VERSION)" $^ ;\
+		if [ $$arch == "386" ] ; then \
+			GOOS=$$os GOARCH=$$arch go build -o $(TARGET)-$$os-"i386"-"$(VERSION)" $^ ;\
+		else \
+			GOOS=$$os GOARCH=$$arch go build -o $(TARGET)-$$os-$$arch-"$(VERSION)" $^ ;\
+		fi \
 		done \
 	done \
 
