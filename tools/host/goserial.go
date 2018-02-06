@@ -46,6 +46,7 @@ var cpuinfo = flag.Bool("cpu", false, "Get CPU information from guest.")
 var diskinfo = flag.Bool("disk", false, "Get DISK information from guest.")
 var etherinfo = flag.Bool("ether", false, "Get Ethernet information from guest.")
 var uptimeinfo = flag.Bool("uptime", false, "Get guest's UPTIME.")
+var ping = flag.Bool("ping", false, "Check if guest is alive.")
 
 func connect(opt string, path string) {
 	var buf [2048]byte
@@ -80,20 +81,24 @@ func main() {
 			arg = "mem"
 			connect(arg, *socketPath)
 		}
-                if *cpuinfo {
+		if *cpuinfo {
 			arg = "cpu"
 			connect(arg, *socketPath)
 		}
-                if *diskinfo {
+		if *diskinfo {
 			arg = "disk"
 			connect(arg, *socketPath)
 		}
-                if *etherinfo {
+		if *etherinfo {
 			arg = "iface"
 			connect(arg, *socketPath)
 		}
-                if *uptimeinfo {
+		if *uptimeinfo {
 			arg = "uptime"
+			connect(arg, *socketPath)
+		}
+		if *ping {
+			arg = "ping"
 			connect(arg, *socketPath)
 		}
 	}
