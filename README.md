@@ -12,7 +12,15 @@ It supports [virtio-console](https://fedoraproject.org/wiki/Features/VirtioSeria
 1) `make deps`
 2) `make`
 
+It will try to detect your OS and build the binaries for it.
+
+## Build release
+1) `make deps`
+2) `make deps_windows`
+3) `make release`
+
 It will cross compile binaries for the following platforms: FreeBSD, NetBSD, Linux and Windows.
+NOTE: When it runs `make deps_windows` a 'build constraints' will appears, just ignore it.
 
 ## Usage instructions (Host VM)
 Start bhyve(8).
