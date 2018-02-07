@@ -63,9 +63,13 @@ root@guest:/tmp # ./bhyve-vm-goagent-freebsd-386 -virtio
 ```
 
 ## How to use host [tools](https://github.com/araujobsd/bhyve-vm-goagent/tree/master/tools/host)?
+<b> Build goserial:</b>
+
+```make tools```
+
 <b> goserial.go:</b>
 ```
-root@freenas:/tmp # ./host -socket="/tmp/FreeBSD12.sock" -ether -uptime
+root@freenas:/tmp # ./goserial -socket="/tmp/FreeBSD12.sock" -ether -uptime
 Result:  [{"mtu":1500,"name":"em0","hardwareaddr":"00:a0:98:1e:c0:08","flags":["up","broadcast","multicast"],"addrs":[{"addr":"192.168.100.193/24"}]} {"mtu":16384,"name":"lo0","hardwareaddr":"","flags":["up","loopback","multicast"],"addrs":[{"addr":"::1/128"},{"addr":"fe80::1/64"},{"addr":"127.0.0.1/8"}]}]
 Result:  {"seconds":5742,"days":0,"hours":1,"minutes":35}
 ```
