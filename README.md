@@ -20,6 +20,7 @@ It will try to detect your OS and build the binaries for it.
 3) `make release`
 
 It will cross compile binaries for the following platforms: FreeBSD, NetBSD, Linux and Windows.
+
 NOTE: When it runs `make deps_windows` a 'build constraints' will appears, just ignore it.
 
 ## Usage instructions (Host VM)
