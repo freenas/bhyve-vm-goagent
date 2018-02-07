@@ -20,6 +20,9 @@ deps:
 deps_windows:
 	go get github.com/StackExchange/wmi
 
+tools:
+	go build -o goserial ./tools/host/goserial.go
+
 build:
 	@for arch in $(ARCH); do \
 		echo "===> building: $(TARGET)-$(HOSTOS)-$$arch-$(VERSION)"; \
@@ -52,4 +55,4 @@ clean:
 	done \
 
 
-.PHONY: all release deps deps_windows build clean
+.PHONY: all release deps deps_windows tools build clean
