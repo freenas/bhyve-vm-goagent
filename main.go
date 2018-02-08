@@ -39,8 +39,10 @@ import (
 	"github.com/araujobsd/bhyve-vm-goagent/websocket"
 )
 
-const DEBUG int = 1
-const VERSION string = "1.0-RELEASE"
+const (
+    DEBUG int = 0
+    VERSION string = "1.0-RELEASE"
+)
 
 var (
 	guestInfo    []byte
